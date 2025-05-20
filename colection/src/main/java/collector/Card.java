@@ -103,7 +103,7 @@ public class Card {
     }    
 
     public static void main(String[] args) {
-        Card card1 = new Card("Matthew Barzal",2017,458,"Upper Deck 2016-2017 Series  Two",false);
+        Card card1 = new Card("Matthew Barzal",2017,458,"Upper Deck 2016-2017 Series  Two",false,0);
         System.out.println(card1);
     }
 
