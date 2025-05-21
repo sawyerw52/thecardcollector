@@ -1,2 +1,0 @@
-Hello from the collector app!
-This file is inside the existing data directory.

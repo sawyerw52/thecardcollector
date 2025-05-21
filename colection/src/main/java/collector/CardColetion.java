@@ -1,12 +1,17 @@
 package collector;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CardColetion {
     private File currentFile;
+    private List<Card> cardlist;
 
     public CardColetion(File file){
         this.currentFile = file;
@@ -14,8 +19,8 @@ public class CardColetion {
     }
 
 
-    public static void main(String[] args) {
-        Card card1 = new Card("Matthew Barzal",2017,458,"Upper Deck 2016-2017 Series  Two",false);
+    public static void main(String[] args) throws IOException{
+        Card card1 = new Card("Matthew Barzal",2017,458,SetName.UDS21617,false);
         Scanner scanner = new Scanner(System.in);
         System.out.print("What collection would you like too see: ");
         String Username = scanner.nextLine();
@@ -27,17 +32,15 @@ public class CardColetion {
             System.out.println("Welcome back " + Username);
         }
         system.addCard(card1);
+        System.out.print(system.getCardList());
         //System.out.println(system.deleteFile());
+    
 
      
     }
 
     public boolean   deleteFile(){
-        if(currentFile.delete()){
-            return true;
-        }else{
-            return false;
-        }
+        return currentFile.delete();
     }
 
     private  void addCard(Card card){
@@ -52,7 +55,21 @@ public class CardColetion {
        
     }
 
-    private void printCards(){
+    private List<Card> getCardList() throws  IOException{
+       try(FileReader fr = new FileReader(currentFile);
+            BufferedReader reader = new BufferedReader(fr)) {
+            List<Card> cards = new ArrayList<>();
+            String line = reader.readLine();
+            while(line != null) {
+                String[] cardinfo = line.split(" ");
+                String year = cardinfo[2].substring(0,4);
+                // System.out.println(year); debug print
+                Card card = new Card(cardinfo[0] + cardinfo[1], Integer.parseInt(year) , Integer.parseInt(cardinfo[3]),SetName.getEnum(cardinfo[4]),Boolean.valueOf(cardinfo[5]),Integer.parseInt(cardinfo[6]));
+                cards.add(card);
+                line = reader.readLine();
+            }
+            return cards;
+        }
         
     }
 
