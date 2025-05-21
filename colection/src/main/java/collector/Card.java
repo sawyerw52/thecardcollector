@@ -1,11 +1,15 @@
 package collector;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * The card class stores all of the information of a single card
  * Has its own enum for setname which can convert back and fourth between the setname boolean and a string that is more descriptive
  */
-public class Card {
+public class Card implements Comparable<Card>{
     private String name;
     private int year;
     private int cardNumber;
@@ -165,9 +169,30 @@ public class Card {
         return "<" + "Name = " + name + ", Year " + (year - 1) + "-" + year + ", Number #" +  cardNumber + ">";
     }    
 
+    @Override
+        public int compareTo(Card other) {
+            return Integer.compare(this.year, other.year); 
+    }
+
     public static void main(String[] args) {
         Card card1 = new Card("Matthew Barzal",2017,458,SetName.UDS21617,false,0);
-        System.out.println(card1);
+        Card card2 = new Card("Auston Matthews",2017,201,SetName.UDS11617,false,0);
+        Card card3 = new Card("Adam Pelech",2016,465,SetName.UDS21516,false,0);
+
+        System.out.println(card1 + " " +  card2 + " " + card3);
+        List<Card> cardlist = new ArrayList<>();
+        cardlist.add(card1);
+        cardlist.add(card2);
+        cardlist.add(card3);
+        System.out.println(cardlist);
+        Collections.sort(cardlist);
+        System.out.println(cardlist);
+
+        
+
     }
+
+
+   
 
 }

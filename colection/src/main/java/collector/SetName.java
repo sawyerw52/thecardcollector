@@ -7,7 +7,9 @@ import java.util.Map;
  * Allows for the cards to be asigned a set value that helps with sorting and keeping the cards orginized
  */
 public enum SetName {
-    UDS21617;
+    UDS11617,
+    UDS21617,
+    UDS21516;
 
     private static final Map<SetName, String> setnamemap = new HashMap<>();
     private static final Map<String, SetName> setenummap = new HashMap<>();
@@ -16,8 +18,14 @@ public enum SetName {
      * Creates the maps that allows the change between enums and strings
      */
     static {
-        setnamemap.put(UDS21617, "Upper Deck 2016-2017");
-        setenummap.put("Upper Deck 2016-2017", UDS21617);
+        setnamemap.put(UDS11617, "Upper Deck 2016-2017 Series one");
+        setenummap.put("Upper Deck 2016-2017 Series one", UDS11617);
+
+        setnamemap.put(UDS21617, "Upper Deck 2016-2017 Series two");
+        setenummap.put("Upper Deck 2016-2017 Series two", UDS21617);
+
+        setnamemap.put(UDS21516, "Upper Deck 2015-2016 Series two");
+        setenummap.put("Upper Deck 2016-2017 Series two", UDS21516);
     }
 
     /**
