@@ -12,10 +12,14 @@ import java.util.Scanner;
 public class CardColetion {
     private File currentFile;
     private List<Card> cardlist;
+    private List<String> userlist;
+    private final File USERFILE = new File("colection\\src\\main\\java\\collector\\UserList.txt");
 
     public CardColetion(File file){
         this.currentFile = file;
-
+        this.cardlist = new  ArrayList<>();
+        this.userlist = new ArrayList<>();
+    
     }
 
 
@@ -28,9 +32,12 @@ public class CardColetion {
         CardColetion system = new CardColetion(file);
         if(system.currentFile.length() == 0){
             System.out.println("You have created a new profile named: " + Username);
+            system.addNewUser(Username);
         }else{
             System.out.println("Welcome back " + Username);
         }
+        system.getUserList();
+        System.out.println(system.userlist);
         system.addCard(card1);
         System.out.print(system.getCardList());
         //System.out.println(system.deleteFile());
@@ -70,6 +77,36 @@ public class CardColetion {
             }
             return cards;
         }
+        
+    }
+
+    private void addNewUser(String username){
+         try (FileWriter writer = new FileWriter(USERFILE,true)) {
+            
+            writer.append(username + "\n");     
+        } catch (IOException e) {
+            System.err.println("Error writing file: " + e.getMessage());
+        }
+    
+        
+    }
+
+    private void getUserList() throws  IOException{
+      
+        
+        try(FileReader fr = new FileReader(USERFILE);
+            BufferedReader reader = new BufferedReader(fr)) {
+            String line = reader.readLine();
+            while(line != null) {
+                userlist.add(line);
+                line = reader.readLine();
+            }
+            
+        }
+
+    }
+
+    public void removeUser(String user){
         
     }
 
