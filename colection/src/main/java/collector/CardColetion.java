@@ -11,16 +11,18 @@ import java.util.Scanner;
 
 public class CardColetion {
     private File currentFile;
+    private String currentUser;
     private List<Card> cardlist;
     private List<String> userlist;
     private final File USERFILE = new File("colection\\src\\main\\java\\collector\\UserList.txt");
 
-    public CardColetion(File file){
-        this.currentFile = file;
-        this.cardlist = new  ArrayList<>();
-        this.userlist = new ArrayList<>();
-    
+    public CardColetion() throws IOException{
+        this.currentUser = null;
+        this.currentFile = null;
+        this.cardlist = null;
+        this.userlist = makeUserList();
     }
+    
 
 
     public static void main(String[] args) throws IOException{
@@ -29,24 +31,30 @@ public class CardColetion {
         System.out.print("What collection would you like too see: ");
         String Username = scanner.nextLine();
         File file = new File("colection\\data\\" + Username);
-        CardColetion system = new CardColetion(file);
-        if(system.currentFile.length() == 0){
+        CardColetion system = new CardColetion();
+        
+        
+        if(file.length() == 0){
             System.out.println("You have created a new profile named: " + Username);
             system.addNewUser(Username);
+            system.currentFile = file;
         }else{
             System.out.println("Welcome back " + Username);
+            system.currentFile = file;
         }
-        system.getUserList();
+        system.addInfo(Username,file);
+        //system.makeUserList();
         System.out.println(system.userlist);
         system.addCard(card1);
-        System.out.print(system.getCardList());
+        System.out.print(system.cardlist);
         //System.out.println(system.deleteFile());
     
 
      
     }
 
-    public boolean   deleteFile(){
+    public boolean  deleteFile(){
+        userlist.remove(currentUser);
         return currentFile.delete();
     }
 
@@ -62,7 +70,7 @@ public class CardColetion {
        
     }
 
-    private List<Card> getCardList() throws  IOException{
+    private List<Card> makeCardList() throws  IOException{
        try(FileReader fr = new FileReader(currentFile);
             BufferedReader reader = new BufferedReader(fr)) {
             List<Card> cards = new ArrayList<>();
@@ -91,23 +99,85 @@ public class CardColetion {
         
     }
 
-    private void getUserList() throws  IOException{
+    private List<String> makeUserList() throws  IOException{
       
-        
+        ArrayList<String> user = new ArrayList<>();
         try(FileReader fr = new FileReader(USERFILE);
             BufferedReader reader = new BufferedReader(fr)) {
             String line = reader.readLine();
             while(line != null) {
-                userlist.add(line);
+                user.add(line);
                 line = reader.readLine();
             }
             
         }
+        return user;
 
     }
 
     public void removeUser(String user){
-        
+
+
+    }
+
+    public void addInfo(String username,File file)throws IOException{
+        this.currentUser = username;
+        this.currentFile = file;
+        this.cardlist = makeCardList();
+    }
+
+
+
+    public File getCurrentFile() {
+        return currentFile;
+    }
+
+
+
+    public void setCurrentFile(File currentFile) {
+        this.currentFile = currentFile;
+    }
+
+
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+
+
+    public List<Card> getCardlist() {
+        return cardlist;
+    }
+
+
+
+    public void setCardlist(List<Card> cardlist) {
+        this.cardlist = cardlist;
+    }
+
+
+
+    public List<String> getUserlist() {
+        return userlist;
+    }
+
+
+
+    public void setUserlist(List<String> userlist) {
+        this.userlist = userlist;
+    }
+
+
+
+    public File getUSERFILE() {
+        return USERFILE;
     }
 
 
