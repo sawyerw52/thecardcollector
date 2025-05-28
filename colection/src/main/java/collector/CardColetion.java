@@ -17,7 +17,7 @@ public class CardColetion {
     private final File USERFILE = new File("colection\\src\\main\\java\\collector\\UserList.txt");
 
     public CardColetion() throws IOException{
-        this.currentUser = null;
+        this.currentUser = "";
         this.currentFile = null;
         this.cardlist = null;
         this.userlist = makeUserList();
@@ -42,7 +42,7 @@ public class CardColetion {
             System.out.println("Welcome back " + Username);
             system.currentFile = file;
         }
-        system.addInfo(Username,file);
+        system.addInfo(Username);
         //system.makeUserList();
         System.out.println(system.userlist);
         system.addCard(card1);
@@ -91,7 +91,10 @@ public class CardColetion {
     private void addNewUser(String username){
          try (FileWriter writer = new FileWriter(USERFILE,true)) {
             
-            writer.append(username + "\n");     
+            if(userlist.contains(username)){
+              writer.append(username + "\n");   
+            }
+
         } catch (IOException e) {
             System.err.println("Error writing file: " + e.getMessage());
         }
@@ -120,8 +123,10 @@ public class CardColetion {
 
     }
 
-    public void addInfo(String username,File file)throws IOException{
+    public void addInfo(String username)throws IOException{
         this.currentUser = username;
+        File file = new File("colection\\data\\" + username);
+        addNewUser(username);
         this.currentFile = file;
         this.cardlist = makeCardList();
     }
@@ -164,7 +169,8 @@ public class CardColetion {
 
 
 
-    public List<String> getUserlist() {
+    public List<String> getUserlist() throws IOException {
+        userlist = makeUserList();
         return userlist;
     }
 
